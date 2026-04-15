@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <div className="min-h-screen font-sans selection:bg-sky-400 selection:text-white relative z-0">
       <Head>
-        <title>Concours WGTF 2026 | Maison des Jeunes</title>
+        <title>Concours WGTF 2026 | Nextape & Maison des Jeunes</title>
         <link rel="icon" href={isDayMode ? "/favicon.ico?v=3" : "/favicon1.ico?v=3"} />
       </Head>
 

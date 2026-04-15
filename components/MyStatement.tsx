@@ -23,7 +23,7 @@ export default function MyStatement({ isDayMode }: { isDayMode: boolean }) {
           </blockquote>
           
           <p>
-            Voici ma candidature pour gagner les places, tout en mettant en valeur votre incroyable événement.
+            Voici ma candidature pour gagner les places via le concours de la Maison des Jeunes, tout en mettant en valeur l'incroyable événement de Nextape.
           </p>
         </div>
 

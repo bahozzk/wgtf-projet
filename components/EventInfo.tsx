@@ -17,7 +17,7 @@ export default function EventInfo({ isDayMode }: { isDayMode: boolean }) {
           </h3>
 
           <p className={`text-base md:text-lg leading-relaxed font-medium transition-colors duration-[2500ms] ${isDayMode ? 'text-slate-800' : 'text-slate-200'}`}>
-            Le WGTF est un festival international de hip-hop incontournable qui rassemble les meilleurs danseurs et passionnés du monde entier, et ça se passe directement à Pontcharra.
+            Le WGTF, organisé par <strong>Nextape</strong>, est un festival international de hip-hop incontournable qui rassemble les meilleurs danseurs mondiaux à Pontcharra.
           </p>
         </div>
 

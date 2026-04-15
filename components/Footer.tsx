@@ -4,8 +4,9 @@ export default function Footer({ isDayMode }: { isDayMode: boolean }) {
       <div className={`max-w-5xl mx-auto flex flex-col items-center gap-6 relative z-10 w-full p-8 md:p-12 rounded-[2rem] transition-all duration-[2500ms] ${isDayMode ? 'bg-white/10 border border-white/20 shadow-xl backdrop-blur-md' : 'bg-[#0f1423]/30 border border-white/10 shadow-xl backdrop-blur-md'}`}>
         
         <p className={`text-lg font-medium transition-colors duration-[2500ms] ${isDayMode ? 'text-slate-800' : 'text-slate-200'}`}>
-          Propulsé par la <br className="hidden md:block"/>
-          <span className={`text-xl md:text-2xl font-bold uppercase tracking-wider transition-all duration-[2500ms] ${isDayMode ? 'animate-text-gradient bg-gradient-to-r from-rose-600 via-pink-500 to-fuchsia-600' : 'text-[#ffb7c5]'}`}>Maison des Jeunes Pontcharra</span>
+          Projet pour le concours de la <br className="hidden md:block"/>
+          <span className={`text-xl md:text-2xl font-bold uppercase tracking-wider transition-all duration-[2500ms] ${isDayMode ? 'animate-text-gradient bg-gradient-to-r from-rose-600 via-pink-500 to-fuchsia-600' : 'text-[#ffb7c5]'}`}>Maison des Jeunes Pontcharra</span> <br/>
+          pour le festival <span className="font-black italic">WGTF x Nextape</span>
         </p>
 
         <div className="flex flex-col items-center gap-1">

@@ -36,7 +36,7 @@ export default function Hero({ isDayMode }: { isDayMode: boolean }) {
         <p className={`text-lg md:text-xl font-medium tracking-wide mt-2 transition-all duration-[2500ms] ${isDayMode ? 'text-slate-800' : 'text-slate-200'}`}>
           Ceci n'est pas qu'un site web. <br className="md:hidden" />
           <span className={`font-bold transition-all duration-[2500ms] ${isDayMode ? 'animate-text-gradient bg-gradient-to-r from-rose-600 via-pink-500 to-fuchsia-600' : 'text-[#ffb7c5]'}`}>
-            C'est ma création numérique pour le concours.
+            C'est ma candidature pour le concours de la Maison des Jeunes pour le WGTF 2026 by Nextape.
           </span>
         </p>
 
