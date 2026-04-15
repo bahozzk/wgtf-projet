@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@keyframes panStars {
+  from { background-position: 0px 0px; }
+  to { background-position: -2000px 1000px; }
+}
+.animate-pan-stars {
+  animation: panStars 150s linear infinite;
+}
+
+@keyframes driftClouds {
+  from { transform: translateX(-30vw); }
+  to { transform: translateX(110vw); }
+}
+.animate-drift-clouds {
+  animation: driftClouds linear infinite;
+}
+
+@keyframes spinWindmill {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-windmill {
+  animation: spinWindmill 15s linear infinite;
+  transform-origin: center;
+}
+
+/* Beautiful Animated Gradients for Text (No Neon Glow, strictly color shifting) */
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-text-gradient {
+  background-size: 200% auto;
+  animation: gradientFlow 4s ease infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* Fallback for precision */
+}
+
+/* Specific glows */
+.text-hero-glow-night {
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 255, 255, 0.15);
+}
+.text-hero-glow-day {
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.8);
+}
