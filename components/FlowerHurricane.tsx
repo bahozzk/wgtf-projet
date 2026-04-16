@@ -139,4 +139,3 @@ export default function FlowerHurricane({ isActive, isDayMode, onAnimationComple
     </div>
   );
 }
-}
