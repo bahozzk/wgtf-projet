@@ -47,26 +47,24 @@ export default function FlowerHurricane({ isActive, isDayMode, onAnimationComple
     // Select the current color palette
     const colors = isDayMode ? dayColors : nightColors;
     
-    const NUM_PARTICLES = 972; // Reduced density by another 5% for extreme performance tuning (1024 -> 972)
+    const NUM_PARTICLES = 875; // Reduced by another 10% (972 -> 875) for peak performance
 
     // Initialize state strictly in memory buffer
     particlesRef.current = [];
     for (let i = 0; i < NUM_PARTICLES; i++) {
         // Tight cluster spawn: x spawns between -100 and -900 
-        // We shrank this from 1200 to 900 to cut off the 0.3s "tail" of the gust.
       particlesRef.current.push({
         x: -Math.random() * 800 - 100, 
         y: Math.random() * canvas.height * 1.5 - (canvas.height * 0.25), 
-        // Speeds between 25.2 and 37.8 (Increased by exactly 5% to negate mid-screen optical drag)
         vx: Math.random() * 12.6 + 25.2, 
         vy: (Math.random() - 0.5) * 8,    
-        size: Math.random() * 40 + 28, // Increased size by 3% to preserve volume (was 39 + 27)
+        size: Math.random() * 42 + 29.5, // Increased size by 5% (was 40 + 28)
         angle: Math.random() * Math.PI * 2,
         va: (Math.random() - 0.5) * 0.2,  
         flipX: Math.random() * Math.PI * 2,
         flipSpeed: Math.random() * 0.1 + 0.05,
         color: colors[Math.floor(Math.random() * colors.length)],
-        type: Math.random() > 0.85 ? 'leaf' : 'petal' // In night mode, these become jagged dark shards
+        type: Math.random() > 0.85 ? 'leaf' : 'petal'
       });
     }
 
@@ -74,51 +72,54 @@ export default function FlowerHurricane({ isActive, isDayMode, onAnimationComple
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       let activeCount = 0;
 
-      particlesRef.current.forEach(p => {
-        if (p.x > canvas.width + 100) return; // Dead
+      // Grouping operations by color is a classic optimization, 
+      // but since every leaf has its own transform, we must keep some state changes.
+      // We will minimize path complexity for maximum gain.
+
+      for (let i = 0; i < particlesRef.current.length; i++) {
+        const p = particlesRef.current[i];
+        if (p.x > canvas.width + 100) continue; 
         activeCount++;
 
-        // Memory mutation (0 re-renders horizontally synced)
         p.x += p.vx;
         p.y += p.vy;
         p.angle += p.va;
         p.flipX += p.flipSpeed;
 
+        const scaleX = Math.sin(p.flipX);
+        
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
-        ctx.scale(Math.sin(p.flipX), 1);
+        ctx.scale(scaleX, 1);
         
+        // Simplified Path: Elliptic approximation (Cheaper than complex Beziers)
         ctx.beginPath();
-        // Reverted to exactly the old smooth oval/bubble shapes
         if (p.type === 'petal') {
-          ctx.moveTo(0, 0);
-          ctx.bezierCurveTo(p.size / 2, -p.size / 2, p.size, -p.size / 3, p.size, 0);
-          ctx.bezierCurveTo(p.size, p.size / 3, p.size / 2, p.size / 2, 0, 0);
+          // A simpler, more "graphic" petal shape (heart-like / teardrop)
+          ctx.ellipse(p.size/2, 0, p.size/2, p.size/3, 0, 0, Math.PI * 2);
         } else {
-          ctx.moveTo(0, -p.size/2);
-          ctx.bezierCurveTo(p.size, -p.size/2, p.size, p.size/2, 0, p.size/2);
-          ctx.bezierCurveTo(-p.size, p.size/2, -p.size, -p.size/2, 0, -p.size/2);
+          // A simpler leaf (classic almond shape)
+          ctx.moveTo(0, -p.size/4);
+          ctx.lineTo(p.size, 0);
+          ctx.lineTo(0, p.size/4);
+          ctx.lineTo(-p.size, 0);
+          ctx.closePath();
         }
 
-        // Texture & Lighting Effect Updates (Shadows & Gradients REMOVED for strict 60fps lock)
-        
-        // 1. High Performance Solid Fill (Bypasses GC micro-stuttering)
+        // Optimization: Single fill call, no stroke. 
+        // We use a slight opacity to keep it looking airy and aesthetic.
+        ctx.globalAlpha = 0.85;
         ctx.fillStyle = p.color;
         ctx.fill();
 
-        // 2. Subtle bright edge-lighting stroke to keep the premium "glassy" outline texture
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-        ctx.stroke();
-
         ctx.restore();
-      });
+      }
 
       if (activeCount > 0) {
         animFrameRef.current = requestAnimationFrame(drawParticles);
       } else {
-        // Use the passed function directly without adding it to dependencies
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         onAnimationComplete();
       }
     };
@@ -131,12 +132,11 @@ export default function FlowerHurricane({ isActive, isDayMode, onAnimationComple
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive]);
 
-  // Pure fixed viewport layer (disconnected from all flex/transform structures)
+  // ALWAYS MOUNTED to prevent context-switching stutter, but hidden when inactive
   return (
-    <div className="fixed inset-0 w-screen h-screen z-[9999] pointer-events-none" style={{ position: 'fixed', top: 0, left: 0 }}>
-      {isActive && (
-        <canvas ref={canvasRef} className="absolute inset-0 block w-full h-full pointer-events-none" />
-      )}
+    <div className={`fixed inset-0 w-screen h-screen z-[9999] pointer-events-none ${isActive ? 'visible' : 'hidden'}`} style={{ position: 'fixed', top: 0, left: 0 }}>
+      <canvas ref={canvasRef} className="absolute inset-0 block w-full h-full pointer-events-none" />
     </div>
   );
+}
 }
