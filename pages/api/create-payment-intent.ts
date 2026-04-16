@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const stripe = new Stripe(stripeToken, {
-      apiVersion: '2023-10-16', // Type checking version lock
+      apiVersion: '2026-03-25.dahlia' as any, // Updated for 2026 compatibility
     });
 
     const { amount } = req.body;
