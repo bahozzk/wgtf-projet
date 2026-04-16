@@ -56,7 +56,7 @@ export default function FlowerHurricane({ isActive, isDayMode, onAnimationComple
       particlesRef.current.push({
         x: -Math.random() * 800 - 100, 
         y: Math.random() * canvas.height * 1.5 - (canvas.height * 0.25), 
-        vx: Math.random() * 11.34 + 22.68, 
+        vx: Math.random() * 10.21 + 20.41, 
         vy: (Math.random() - 0.5) * 8,    
         size: Math.random() * 42 + 29.5, // Increased size by 5% (was 40 + 28)
         angle: Math.random() * Math.PI * 2,
